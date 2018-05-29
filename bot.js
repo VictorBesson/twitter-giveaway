@@ -1,9 +1,12 @@
 var Twit = require('twit');
+
 var config = require('./config.js');
+
 var T = new Twit(config);
 
 //Begin a stream for each status with the world giveaway
 var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow'})
+var count =0;
 
 function retweet(tweet_id){
   T.post('statuses/retweet/:id', { id: tweet_id }, function (err, data, response) {
@@ -15,6 +18,10 @@ function retweet(tweet_id){
 function fav(tweet_id){
   T.post('favorites/create', { id: tweet_id }, function (err, data, response){
     //In the like
+    T.post('statuses/retweet/:id', { id: tweet_id }, function (err, data, response) {
+      //Something to do after retweet
+      console.log('Retweet n°' + tweet_id);
+    })
     console.log('Like n°' + tweet_id);
   })
 }
@@ -37,16 +44,18 @@ stream.on('tweet', function (tweet) {
   }
   //retweet like tweet and like every person on mention
   if(tweet.retweeted == false){
-    retweet(tweet.id_str);
-  }
-  if(tweet.favorited == false){
     fav(tweet.id_str);
+    //retweet(tweet.id_str);
+
     like(tweet.user.id_str);
+    count++;
   }
+
 //Check all mentions and like
   tweet.entities.user_mentions.forEach(function(element){
     like(element.id_str);
   })
+
 
 })
 
@@ -57,5 +66,6 @@ stream.on('limit', function (limitMessage) {
 stream.on('error', function (event) {
   stream.stop;
   console.log("Limit Rate, 15 min of waiting...");
+  console.log("Number of retweet : " + count);
   setTimeOut(stream.start, 900000);
 })
