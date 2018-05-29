@@ -1,4 +1,4 @@
-//Bruno19077587
+//@BerrangerBruno
 //config.js
 /** TWITTER APP CONFIGURATION
  * consumer_key
@@ -7,8 +7,8 @@
  * access_token_secret
  */
 module.exports = {
-  consumer_key: 'Lcfetlkb0ObhjUYvymUtf98Yt',
-  consumer_secret: 'ioY1DdYchKeKI06EbYpT7mM8KJ7uqt1arZBgQ7CqSEB24DcvOZ',
-  access_token: '1000361177678057472-M4kIsYoAbeqwIPGG4RFHCZpYrSFa50',
-  access_token_secret: 'jXQQPMH6grsTMbOs3Y3GUoxCW8VLy3H9T4AfBFrMhdP5k'
+  consumer_key: '69UR17rE7YE21fbxh6v4B9f0X',
+  consumer_secret: 'fOtWZ8yc0ZzLxaRM5VphxBLCrnf65HSB1YVO5YeGub08iIGCWU',
+  access_token: '1001480534931988480-n3UfmkaeEWiVKxoTKIqVHuPBlwcaRb',
+  access_token_secret: 'sTvBkwVeB5Fu105lavBOAr2MjbrIcR23b9CedqrV6JP1s'
 }

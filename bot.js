@@ -5,30 +5,39 @@ var config = require('./config.js');
 var T = new Twit(config);
 
 //Begin a stream for each status with the world giveaway
-var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow'})
+var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow', language: 'fr'})
 var count =0;
 
 function retweet(tweet_id){
   T.post('statuses/retweet/:id', { id: tweet_id }, function (err, data, response) {
     //Something to do after retweet
-    console.log('Retweet n°' + tweet_id);
+    if(!err){
+      console.log('Retweet n°' + tweet_id);
+    }else {
+      console.log(err.message);
+    }
   })
 }
 
 function fav(tweet_id){
   T.post('favorites/create', { id: tweet_id }, function (err, data, response){
     //In the like
-    T.post('statuses/retweet/:id', { id: tweet_id }, function (err, data, response) {
-      //Something to do after retweet
-      console.log('Retweet n°' + tweet_id);
-    })
-    console.log('Like n°' + tweet_id);
+    if(!err){
+      console.log('Like n°' + tweet_id);
+    }else{
+      console.log(err.message);
+    }
+
   })
 }
 
 function like(user_id){
   T.post('friendships/create', { id: user_id }, function (err, data, response){
-    console.log('User n°' + user_id);
+    if(!err){
+      console.log('Follow n°' + user_id);
+    }else{
+      console.log(err.message);
+    }
   })
 }
 
@@ -43,10 +52,10 @@ stream.on('tweet', function (tweet) {
     tweet = tweet.retweeted_status;
   }
   //retweet like tweet and like every person on mention
-  if(tweet.retweeted == false){
+  if(tweet.retweeted == false ){
     fav(tweet.id_str);
     //retweet(tweet.id_str);
-
+    retweet(tweet.id_str);
     like(tweet.user.id_str);
     count++;
   }
@@ -64,8 +73,8 @@ stream.on('limit', function (limitMessage) {
 })
 
 stream.on('error', function (event) {
-  stream.stop;
+  stream.stop();
   console.log("Limit Rate, 15 min of waiting...");
   console.log("Number of retweet : " + count);
-  setTimeOut(stream.start, 900000);
+  setTimeOut(stream.start(), 900000);
 })
