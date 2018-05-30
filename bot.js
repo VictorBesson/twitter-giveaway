@@ -51,19 +51,20 @@ stream.on('tweet', function (tweet) {
     //or it's a retweet
     tweet = tweet.retweeted_status;
   }
-  //retweet like tweet and like every person on mention
-  if(tweet.retweeted == false ){
+  if(!tweet.retweeted){
+    //retweet like tweet and like every person on mention
+
     fav(tweet.id_str);
-    //retweet(tweet.id_str);
     retweet(tweet.id_str);
     like(tweet.user.id_str);
     count++;
+    //Check all mentions and like
+    tweet.entities.user_mentions.forEach(function(element){
+        like(element.id_str);
+    })
   }
 
-//Check all mentions and like
-  tweet.entities.user_mentions.forEach(function(element){
-    like(element.id_str);
-  })
+
 
 
 })
