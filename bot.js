@@ -8,29 +8,6 @@ var T = new Twit(config);
 var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow', language: 'fr'})
 var count =0;
 
-function retweet(tweet_id){
-  T.post('statuses/retweet/:id', { id: tweet_id }, function (err, data, response) {
-    //Something to do after retweet
-    if(!err){
-      console.log('Retweet n°' + tweet_id);
-    }else {
-      console.log(err.message);
-    }
-  })
-}
-
-function fav(tweet_id){
-  T.post('favorites/create', { id: tweet_id }, function (err, data, response){
-    //In the like
-    if(!err){
-      console.log('Like n°' + tweet_id);
-    }else{
-      console.log(err.message);
-    }
-
-  })
-}
-
 function like(user_id){
   T.post('friendships/create', { id: user_id }, function (err, data, response){
     if(!err){
@@ -40,6 +17,35 @@ function like(user_id){
     }
   })
 }
+
+function retweetAndFav(tweet){
+  T.post('statuses/retweet/:id', { id: tweet.id_str }, function (err, data, response) {
+    //If retweet if fine go for fav and like
+    if(!err){
+      console.log('Retweet n°' + tweet.id_str);
+      like(tweet.user.id_str);
+      T.post('favorites/create', { id: tweet.id_str }, function (err, data, response){
+        //In the like
+        if(!err){
+          console.log('Like n°' + tweet.id_str);
+        }else{
+          console.log(err.message);
+        }
+
+      })
+      //Check all mentions and like it
+      tweet.entities.user_mentions.forEach(function(element){
+          like(element.id_str);
+      })
+
+    }else {
+      console.log(err.message);
+    }
+  })
+}
+
+
+
 
 //On each tweet in realtime, begin this function
 stream.on('tweet', function (tweet) {
@@ -52,16 +58,14 @@ stream.on('tweet', function (tweet) {
     tweet = tweet.retweeted_status;
   }
   if(!tweet.retweeted){
-    //retweet like tweet and like every person on mention
+    //retweet fav tweet
 
-    fav(tweet.id_str);
-    retweet(tweet.id_str);
-    like(tweet.user.id_str);
+    //fav(tweet.id_str);
+    retweetAndFav(tweet);
+
     count++;
-    //Check all mentions and like
-    tweet.entities.user_mentions.forEach(function(element){
-        like(element.id_str);
-    })
+
+
   }
 
 
