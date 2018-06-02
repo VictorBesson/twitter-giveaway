@@ -1,33 +1,26 @@
-require('dotenv').load();
 var Twit = require('twit');
 
-var config = {
-  consumer_key: process.env.DB_CONSUMER_KEY,
-  consumer_secret: process.env.DB_COMSUMER_SECRET,
-  access_token: process.env.DB_ACCESS_TOKEN,
-  access_token_secret: process.env.DB_ACCESS_TOKEN_SECRET
-}
+var config = require('./config.js');
 
 var T = new Twit(config);
 
 //Begin a stream for each status with the world giveaway
-var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow, concours rt follow, concours rt suivre', language: 'fr'})
+var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow', language: 'fr'})
 var count =0;
-console.log('Stream begin...');
 
 function like(user_id){
   T.post('friendships/create', { id: user_id }, function (err, data, response){
     if(!err){
       console.log('Follow n°' + user_id);
     }else{
-      console.log(err.message);
+      //console.log(err.message);
     }
   })
 }
 
 function retweetAndFav(tweet){
   T.post('statuses/retweet/:id', { id: tweet.id_str }, function (err, data, response) {
-    //If retweet is fine go for fav and like
+    //If retweet if fine go for fav and like
     if(!err){
       console.log('Retweet n°' + tweet.id_str);
       like(tweet.user.id_str);
@@ -36,7 +29,7 @@ function retweetAndFav(tweet){
         if(!err){
           console.log('Like n°' + tweet.id_str);
         }else{
-          console.log(err.message);
+          //console.log(err.message);
         }
 
       })
@@ -46,7 +39,7 @@ function retweetAndFav(tweet){
       })
 
     }else {
-      console.log(err.message);
+      //console.log(err.message);
     }
   })
 }
@@ -66,10 +59,9 @@ stream.on('tweet', function (tweet) {
   }
   if(!tweet.retweeted){
     //retweet fav tweet
-
-    //fav(tweet.id_str);
     retweetAndFav(tweet);
 
+    //count++;
 
 
   }
@@ -84,14 +76,8 @@ stream.on('limit', function (limitMessage) {
 })
 
 stream.on('error', function (event) {
-  console.log(event);
-})
-stream.on('connected', function (response) {
-  console.log('Stream connected');
-})
-stream.on('connect', function (request) {
-  console.log('Connection...');
-})
-stream.on('reconnect', function (request, response, connectInterval) {
-  console.log('Reconnection on ' + connectInterval);
+  stream.stop();
+  console.log("Limit Rate, 15 min of waiting...");
+  console.log("Number of retweet : " + count);
+  setTimeOut(stream.start(), 900000);
 })
