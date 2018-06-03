@@ -1,4 +1,5 @@
 # Twitter-giveaway
+==================
 
 Small twitter bot for giveaway, with node.js
 It retweet, like and follow all mention in tweet with a certain track
@@ -21,7 +22,7 @@ DB_ACCESS_LANG=*
 DB_ACCESS_TRACK=*
 ```
 
-DB_ACCESS_LANG is the lang of the tweet you want to get, with that [code](https://dev.twitter.com/web/overview/languages)
+DB_ACCESS_LANG is the lang of the tweet you want to get, with that [code](https://dev.twitter.com/web/overview/languages).
 DB_ACCESS_TRACK is the track of the tweet you want to get, in quote "". You can seperate different track with a coma.
 
 
