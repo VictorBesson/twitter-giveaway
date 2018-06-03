@@ -11,7 +11,8 @@ You need to install [node.js](https://nodejs.org/en/)
 ### Installing
 
 * Create an app on [twitter](https://apps.twitter.com/) (you need to be logged)
-* Create a .env file in the root of the project with that template, the keys and tokens is available on the app page.
+
+* Create a .env file in the root of the project with that template, the `keys` and `tokens` is available on the app page.
 ```
 DB_CONSUMER_KEY=*
 DB_COMSUMER_SECRET=*
@@ -20,10 +21,9 @@ DB_ACCESS_TOKEN_SECRET=*
 DB_ACCESS_LANG=*
 DB_ACCESS_TRACK=*
 ```
+`DB_ACCESS_LANG` is the lang of the tweet you want to get, with that [code](https://dev.twitter.com/web/overview/languages)
 
-DB_ACCESS_LANG is the lang of the tweet you want to get, with that [code](https://dev.twitter.com/web/overview/languages)
-DB_ACCESS_TRACK is the track of the tweet you want to get, in quote "". You can seperate different track with a coma.
-
+`DB_ACCESS_TRACK` is the track of the tweet you want to get, in quote "". You can seperate different track with a coma.
 
 * start the script with :
 ```
