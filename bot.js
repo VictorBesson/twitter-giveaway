@@ -12,8 +12,9 @@ var config = {
 var T = new Twit(config);
 
 //Begin a stream for each status with the world giveaway
-var stream = T.stream('statuses/filter', { track: 'giveaway rt suivre, giveaway rt follow, concours rt follow, concours rt suivre', language: 'fr'})
+var stream = T.stream('statuses/filter', { track: process.env.DB_ACCESS_TRACK, language: process.env.DB_ACCESS_LANG})
 var count =0;
+console.log(process.env.DB_ACCESS_TRACK);
 console.log('Stream begin...');
 
 function like(user_id){
