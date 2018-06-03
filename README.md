@@ -6,7 +6,7 @@ It retweet, like and follow all mention in tweet with a certain track
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-You need to install [node.js][https://nodejs.org/en/]
+You need to install [node.js](https://nodejs.org/en/)
 
 ### Installing
 
@@ -36,7 +36,7 @@ I recommand using [pm2](http://pm2.keymetrics.io/) for a live system
 
 ## Built With
 
-* [node.js][https://nodejs.org/en/]
+* [node.js](https://nodejs.org/en/)
 * [dotenv](https://maven.apache.org/) - Environnement variable withe .env file
 * [twit](https://www.npmjs.com/package/twit) - For the REST and streaming API
 
