@@ -12,7 +12,7 @@ var config = {
 var T = new Twit(config);
 
 //Begin a stream for each status with the world giveaway
-var stream = T.stream('statuses/filter', { track: process.env.DB_ACCESS_TRACK, language: process.env.DB_ACCESS_LANG})
+var stream = T.stream('statuses/filter', { track: process.env.DB_TRACK, language: process.env.DB_LANG})
 var count =0;
 console.log('Stream begin...');
 
