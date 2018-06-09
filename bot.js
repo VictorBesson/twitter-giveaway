@@ -13,8 +13,6 @@ var T = new Twit(config);
 
 //Begin a stream for each status with the world giveaway
 var stream = T.stream('statuses/filter', { track: process.env.DB_TRACK, language: process.env.DB_LANG})
-var count =0;
-console.log('Stream begin...');
 
 function like(user_id){
   T.post('friendships/create', { id: user_id }, function (err, data, response){
@@ -25,6 +23,39 @@ function like(user_id){
     }
   })
 }
+
+//On each tweet in realtime, begin this function
+stream.on('tweet', function (tweet) {
+  if(tweet.is_quote_status){
+    //if it's a quote, get the original tweet
+    tweet = tweet.quoted_status;
+  }
+  if(tweet.hasOwnProperty('retweeted_status')){
+    //or it's a retweet
+    tweet = tweet.retweeted_status;
+  }
+  if(!tweet.retweeted){
+    retweetAndFav(tweet);
+  }
+
+})
+
+stream.on('limit', function (limitMessage) {
+  console.log(limitMessage);
+})
+
+stream.on('error', function (event) {
+  console.log(event);
+})
+stream.on('connected', function (response) {
+  console.log('Stream connected');
+})
+stream.on('connect', function (request) {
+  console.log('Connection...');
+})
+stream.on('reconnect', function (request, response, connectInterval) {
+  console.log('Reconnection on ' + connectInterval);
+})
 
 function retweetAndFav(tweet){
   T.post('statuses/retweet/:id', { id: tweet.id_str }, function (err, data, response) {
@@ -51,48 +82,3 @@ function retweetAndFav(tweet){
     }
   })
 }
-
-
-
-
-//On each tweet in realtime, begin this function
-stream.on('tweet', function (tweet) {
-  if(tweet.is_quote_status){
-    //if it's a quote, get the original tweet
-    tweet = tweet.quoted_status;
-  }
-  if(tweet.hasOwnProperty('retweeted_status')){
-    //or it's a retweet
-    tweet = tweet.retweeted_status;
-  }
-  if(!tweet.retweeted){
-    //retweet fav tweet
-
-    //fav(tweet.id_str);
-    retweetAndFav(tweet);
-
-
-
-  }
-
-
-
-
-})
-
-stream.on('limit', function (limitMessage) {
-  console.log(limitMessage);
-})
-
-stream.on('error', function (event) {
-  console.log(event);
-})
-stream.on('connected', function (response) {
-  console.log('Stream connected');
-})
-stream.on('connect', function (request) {
-  console.log('Connection...');
-})
-stream.on('reconnect', function (request, response, connectInterval) {
-  console.log('Reconnection on ' + connectInterval);
-})

@@ -18,12 +18,12 @@ DB_CONSUMER_KEY=*
 DB_COMSUMER_SECRET=*
 DB_ACCESS_TOKEN=*
 DB_ACCESS_TOKEN_SECRET=*
-DB_ACCESS_LANG=*
-DB_ACCESS_TRACK=*
+DB_LANG=*
+DB_TRACK=*
 ```
 
-DB_ACCESS_LANG is the lang of the tweet you want to get, with that [code](https://dev.twitter.com/web/overview/languages).
-DB_ACCESS_TRACK is the track of the tweet you want to get, in quote "". You can seperate different track with a coma.
+DB_LANG is the lang of the tweet you want to get, with that [code](https://dev.twitter.com/web/overview/languages).
+DB_TRACK is the track of the tweet you want to get, in quote "". You can seperate different track with a coma.
 
 
 * start the script with :
