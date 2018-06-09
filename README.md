@@ -12,7 +12,8 @@ You need to install [node.js](https://nodejs.org/en/)
 ### Installing
 
 * Create an app on [twitter](https://apps.twitter.com/) (you need to be logged)
-* Create a .env file in the root of the project with that template, the keys and tokens is available on the app page.
+
+* Create a .env file in the root of the project with that template, the `keys` and `tokens` is available on the app page.
 ```
 DB_CONSUMER_KEY=*
 DB_COMSUMER_SECRET=*
