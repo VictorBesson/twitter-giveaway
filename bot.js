@@ -14,16 +14,6 @@ var T = new Twit(config);
 //Begin a stream for each status with the world giveaway
 var stream = T.stream('statuses/filter', { track: process.env.DB_TRACK, language: process.env.DB_LANG})
 
-function like(user_id){
-  T.post('friendships/create', { id: user_id }, function (err, data, response){
-    if(!err){
-      console.log('Follow n°' + user_id);
-    }else{
-      //console.log(err.message);
-    }
-  })
-}
-
 //On each tweet in realtime, begin this function
 stream.on('tweet', function (tweet) {
   if(tweet.is_quote_status){
@@ -34,7 +24,7 @@ stream.on('tweet', function (tweet) {
     //or it's a retweet
     tweet = tweet.retweeted_status;
   }
-  if(!tweet.retweeted){
+  if(tweet.retweet_count > 5){
     retweetAndFav(tweet);
   }
 
@@ -68,7 +58,7 @@ function retweetAndFav(tweet){
         if(!err){
           console.log('Like n°' + tweet.id_str);
         }else{
-          //console.log(err.message);
+          console.log(err.message);
         }
 
       })
@@ -78,6 +68,15 @@ function retweetAndFav(tweet){
       })
 
     }else {
+      //console.log(err.message);
+    }
+  })
+}
+function like(user_id){
+  T.post('friendships/create', { id: user_id }, function (err, data, response){
+    if(!err){
+      console.log('Follow n°' + user_id);
+    }else{
       //console.log(err.message);
     }
   })
