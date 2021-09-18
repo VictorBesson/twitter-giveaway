@@ -46,7 +46,7 @@ I recommand using [pm2](http://pm2.keymetrics.io/) for a live system
 
 ## Authors
 
-* **[Rulty](https://github.com/Rulty)**
+* **[Victor Besson](https://github.com/VictorBesson)**
 
 ## License
 
