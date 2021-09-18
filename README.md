@@ -1,6 +1,8 @@
 # Twitter-giveaway
 ==================
 
+** WARNING : this bot is no longer accepted by twitter, use it as you own risk. **
+
 Small twitter bot for giveaway, with node.js
 It retweet, like and follow all mention in tweet with a certain track
 
